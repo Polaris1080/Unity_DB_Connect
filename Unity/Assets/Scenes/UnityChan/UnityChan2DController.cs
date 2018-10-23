@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿//Unityちゃんの挙動について定義、UnityChan2Dから改変。
 using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class UnityChan2DController : MonoBehaviour

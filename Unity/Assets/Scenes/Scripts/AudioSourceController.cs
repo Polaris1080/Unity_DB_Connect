@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-
+﻿//音楽について定義、UnityChan2Dから改変。
+using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class AudioSourceController : MonoBehaviour
 {
@@ -10,9 +10,8 @@ public class AudioSourceController : MonoBehaviour
         {
             if (m_instance == null)
             {
-                m_instance = FindObjectOfType<AudioSourceController>(); //知らなかったら探す
-                if (m_instance == null)                                 //探しても見つからなかったら作る
-                { m_instance = new GameObject("AudioSourceController").AddComponent<AudioSourceController>(); }
+                m_instance = FindObjectOfType<AudioSourceController>(); //知らないなら探す、見つからないなら作る
+                if (m_instance == null){ m_instance = new GameObject("AudioSourceController").AddComponent<AudioSourceController>(); }
             }
             return m_instance;
         }
