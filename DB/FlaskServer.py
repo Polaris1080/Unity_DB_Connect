@@ -50,6 +50,6 @@ def AddBlockLOG():
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-# サーバー起動　[IP:127.0.0.1 port:8001]
+# サーバー起動　[IP:127.0.0.1 port:8000]
 if __name__ == '__main__':
     api.run(host='127.0.0.1', port=8000)
