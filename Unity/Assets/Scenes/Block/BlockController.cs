@@ -1,34 +1,57 @@
 ﻿//ブロックの挙動について定義、UnityChan2Dから改変。
 using UnityEngine;
+[RequireComponent(typeof(BoxCollider2D))]
 
 public class BlockController : MonoBehaviour
 {
-    public  GameObject    brokenBlock;  //破壊後にスポーン
-    public  LayerMask     whatIsPlayer; //コリジョン2Dレイヤー
-    public  bool          breakable;    //破壊可能
-    private BoxCollider2D collision;    //コリジョン
-    private GameObject    level;
+    [Tooltip("破壊後にスポーンされるオブジェクト")]
+    public  GameObject    brokenBlock;
+    [Tooltip("コリジョン2Dレイヤー")]
+    public  LayerMask     whatIsPlayer;
+    [Tooltip("破壊可能かどうか")]
+    public  bool          breakable;
+    private BoxCollider2D c_collision;
+    private GameObject    m_level;
 
 
     private void Awake()
     {
-        collision  = GetComponent<BoxCollider2D>(); //コリジョンを設定
-        this.level = GameObject.Find("Level");      //Levelを検索
+        c_collision  = GetComponent<BoxCollider2D>(); //コリジョンを設定
+        this.m_level = GameObject.Find("Level");      //Levelを検索
     }
     private void OnCollisionEnter2D(Collision2D collision2D)
     {
         if (collision2D.gameObject.tag == "Player")
-        {
-            //接触を検証
-            Vector2 groundCheck = new Vector2(transform.position.x, transform.position.y - transform.lossyScale.y);
-            Vector2 groundArea  = new Vector2(collision.size.x * transform.lossyScale.y * 0.45f, 0.05f);
-            var col2D = Physics2D.OverlapArea(groundCheck + groundArea, groundCheck - groundArea, whatIsPlayer);
+        {            
+            float[] T = new float[4];
+
+            //T[0] = pointCenter.x  T[1] = overlapArea.x  T[2] = pointCenter.y  T[3] = overlapArea.y
+            T[0] = transform.position.x;
+            T[1] = c_collision.size.x * 0.49f;
+            T[2] = transform.position.y - transform.lossyScale.y;
+            T[3] = 0.05f;
+
+            //左上の座標  upperleft = pointCenter + overlapArea;
+            Vector2 upperleft   = new Vector2(T[0]+T[1], T[2]+T[3]);
+            //右下の座標  bottomright = pointCenter - overlapArea;
+            Vector2 bottomright = new Vector2(T[0]-T[1], T[2]-T[3]);
+        
+            //当たり判定
+            bool col2D   = Physics2D.OverlapArea(upperleft, bottomright, whatIsPlayer);
 
             if (col2D && breakable)
             {
-                this.level.GetComponent<Level_Header>().Block++;                                      //Level_HeaderにBlockを破壊したことを伝える
-                GameObject broken = Instantiate(brokenBlock, transform.position, transform.rotation); //スポーン
-                broken.transform.localScale = transform.lossyScale;    Destroy(gameObject);           //自身と同位置に移動  //自身を破壊                                      
+                //Level_HeaderにBlockを破壊したことを伝える
+                this.m_level.GetComponent<Level_Header>().Block++;
+
+                //同位置にスポーンする
+                GameObject broken = Instantiate(brokenBlock, transform.position, transform.rotation);
+                
+                //自身と同位置に移動 
+                broken.transform.localScale = transform.lossyScale;
+
+                //自身を破壊 
+                Destroy(gameObject);
             }
         }
     }

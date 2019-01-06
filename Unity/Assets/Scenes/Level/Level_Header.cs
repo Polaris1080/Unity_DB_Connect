@@ -15,11 +15,13 @@ public class Level_Header : MonoBehaviour {
     [Tooltip("スポーンさせるブロック")]
     public GameObject spawntarget;
     [Tooltip("スポーンさせる間隔")]
-    public float[]    span_spawn      = new float[5];
+    public Vector3 span_spawn;
     [Tooltip("Blockのしきい値")]
-    public float[]    threshold_spawn = new float[4];
-    [Tooltip("X_min,X_max,Y_min,Y_max")]
-    public sbyte[]    range_spawn     = new sbyte[4];
+    public Vector3Int threshold_spawn;
+    [Tooltip("スポーンさせる範囲")]
+    public Vector2Int range_spawn;
+    [Tooltip("スポーン履歴（記憶されている場所にはスポーンしない）")]
+    public int memory_spawn;
     [Header("Network")]
     [Tooltip("DBにUpdateする間隔")]
     public int netInterval = 5;
