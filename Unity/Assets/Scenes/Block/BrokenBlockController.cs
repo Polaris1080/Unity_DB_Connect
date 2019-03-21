@@ -15,7 +15,6 @@ public class BrokenBlockController : MonoBehaviour
     public  Vector2 randamRangeY = new Vector2(0.5f, 2f);
     [Tooltip("破壊音")]
     public  AudioClip     breakClip;
-    
 
     private Rigidbody2D[] c_collision; //コリジョン
 

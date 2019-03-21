@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
+
 [RequireComponent(typeof(Animator), typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class UnityChan2DController : MonoBehaviour
 {
@@ -88,22 +89,9 @@ public class UnityChan2DController : MonoBehaviour
 
     void FixedUpdate() //物理の更新
     {
-        float[] T = new float[4];
-
-        //T[0] = pointCenter.x  T[1] = overlapArea.x  T[2] = pointCenter.y  T[3] = overlapArea.y
-        T[0] = transform.position.x;
-        T[1] = c_boxcollier2D.size.x * 0.49f;
-        T[2] = transform.position.y - (m_offsetOverlapAreaY * transform.localScale.y);
-        T[3] = 0.05f;
-
-        //左上の座標  upperleft = pointCenter + overlapArea;
-        Vector2 upperleft   = new Vector2(T[0]+T[1], T[2]+T[3]);
-        //右下の座標  bottomright = pointCenter - overlapArea;
-        Vector2 bottomright = new Vector2(T[0]-T[1], T[2]-T[3]);
-        
-        //当たり判定
-        m_isGround = Physics2D.OverlapArea(upperleft, bottomright, whatIsGround);
-
+        m_isGround = MyLibrary.OverlapArea.Check(transform.position.x,          transform.position.y - (m_offsetOverlapAreaY * transform.localScale.y),
+                                                 c_boxcollier2D.size.x * 0.49f, 0.05f,
+                                                 whatIsGround);
         //アニメーションに結果を送る
         c_animator.SetBool("isGround", m_isGround);
     }

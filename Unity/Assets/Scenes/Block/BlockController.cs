@@ -1,17 +1,22 @@
 ﻿//ブロックの挙動について定義、UnityChan2Dから改変。
 using UnityEngine;
+using System;
 [RequireComponent(typeof(BoxCollider2D))]
 
 public class BlockController : MonoBehaviour
 {
-    [Tooltip("破壊後にスポーンされるオブジェクト")]
-    public  GameObject    brokenBlock;
-    [Tooltip("コリジョン2Dレイヤー")]
-    public  LayerMask     whatIsPlayer;
+    [Tooltip("破壊後にスポーンされるブロック")]
+    public                   GameObject    brokenBlock;
+    [Tooltip("破壊後にスポーンされるコイン")]
+    public                   GameObject    spawnCoin;
     [Tooltip("破壊可能かどうか")]
-    public  bool          breakable;
-    private BoxCollider2D c_collision;
-    private GameObject    m_level;
+    public                   bool          breakable;
+    [Tooltip("コインの出現率")]
+    public                   float         coin_spawn = 0.5f;
+    [Tooltip("コリジョン2Dレイヤー")]
+    [SerializeField] private LayerMask     whatIsPlayer;
+    private                  BoxCollider2D c_collision;
+    private                  GameObject    m_level;
 
 
     private void Awake()
@@ -22,36 +27,21 @@ public class BlockController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision2D)
     {
         if (collision2D.gameObject.tag == "Player")
-        {            
-            float[] T = new float[4];
-
-            //T[0] = pointCenter.x  T[1] = overlapArea.x  T[2] = pointCenter.y  T[3] = overlapArea.y
-            T[0] = transform.position.x;
-            T[1] = c_collision.size.x * 0.49f;
-            T[2] = transform.position.y - transform.lossyScale.y;
-            T[3] = 0.05f;
-
-            //左上の座標  upperleft = pointCenter + overlapArea;
-            Vector2 upperleft   = new Vector2(T[0]+T[1], T[2]+T[3]);
-            //右下の座標  bottomright = pointCenter - overlapArea;
-            Vector2 bottomright = new Vector2(T[0]-T[1], T[2]-T[3]);
-        
-            //当たり判定
-            bool col2D   = Physics2D.OverlapArea(upperleft, bottomright, whatIsPlayer);
-
+        {
+            //当たり判定の確認
+            bool col2D = MyLibrary.OverlapArea.Check(transform.position.x,       transform.position.y - transform.lossyScale.y,
+                                                     c_collision.size.x * 0.49f, 0.05f,
+                                                     whatIsPlayer);
             if (col2D && breakable)
             {
-                //Level_HeaderにBlockを破壊したことを伝える
-                this.m_level.GetComponent<Level_Header>().Block++;
+                this.m_level.GetComponent<Level_Header>().Block++;    //Level_HeaderにBlockを破壊したことを伝える
 
-                //同位置にスポーンする
-                GameObject broken = Instantiate(brokenBlock, transform.position, transform.rotation);
-                
-                //自身と同位置に移動 
-                broken.transform.localScale = transform.lossyScale;
+                MyLibrary.Spawn.Sameplace(brokenBlock,transform);     //ブロックのスポーン
 
-                //自身を破壊 
-                Destroy(gameObject);
+                if (UnityEngine.Random.Range(0f, 1f) <= coin_spawn)   //乱数が出現率以下なら、
+                { MyLibrary.Spawn.Sameplace(spawnCoin, transform); }  //コインをスポーンさせる
+
+                Destroy(gameObject);                                  //自身を破壊 
             }
         }
     }
