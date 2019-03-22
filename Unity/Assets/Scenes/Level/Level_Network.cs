@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Level;
 
 public class Level_Network : MonoBehaviour {
     [SerializeField] private Level_Header Header;

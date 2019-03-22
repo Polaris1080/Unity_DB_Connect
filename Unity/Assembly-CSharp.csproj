@@ -63,16 +63,16 @@
      <Compile Include="Assets\Scenes\MyLibrary.cs" />
      <Compile Include="Assets\Scenes\UnityChan\UnityChan2DController.cs" />
  <Reference Include="UnityEditor.StandardEvents">
- <HintPath>C:/Users/Polar/Desktop/Unity_DB_Connect/Unity/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+ <HintPath>C:/Users/Polar/yard/Github/Unity_DB_Connect/Unity/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>C:/Users/Polar/Desktop/Unity_DB_Connect/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/Polar/yard/Github/Unity_DB_Connect/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PackageManagerUI.Editor">
- <HintPath>C:/Users/Polar/Desktop/Unity_DB_Connect/Unity/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+ <HintPath>C:/Users/Polar/yard/Github/Unity_DB_Connect/Unity/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>C:/Users/Polar/Desktop/Unity_DB_Connect/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/Polar/yard/Github/Unity_DB_Connect/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Game_Engine/2018.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

@@ -1,6 +1,8 @@
 ﻿//ブロックの挙動について定義、UnityChan2Dから改変。
 using UnityEngine;
 using System;
+using Level;
+using MyLibrary;
 [RequireComponent(typeof(BoxCollider2D))]
 
 public class BlockController : MonoBehaviour
@@ -29,17 +31,17 @@ public class BlockController : MonoBehaviour
         if (collision2D.gameObject.tag == "Player")
         {
             //当たり判定の確認
-            bool col2D = MyLibrary.OverlapArea.Check(transform.position.x,       transform.position.y - transform.lossyScale.y,
-                                                     c_collision.size.x * 0.49f, 0.05f,
-                                                     whatIsPlayer);
+            bool col2D = OverlapArea.Check(transform.position.x,     transform.position.y-transform.lossyScale.y,
+                                           c_collision.size.x*0.49f, 0.05f,
+                                           whatIsPlayer                                                          );
             if (col2D && breakable)
             {
                 this.m_level.GetComponent<Level_Header>().Block++;    //Level_HeaderにBlockを破壊したことを伝える
 
-                MyLibrary.Spawn.Sameplace(brokenBlock,transform);     //ブロックのスポーン
+                Spawn.Sameplace(brokenBlock, this.transform);     //ブロックのスポーン
 
                 if (UnityEngine.Random.Range(0f, 1f) <= coin_spawn)   //乱数が出現率以下なら、
-                { MyLibrary.Spawn.Sameplace(spawnCoin, transform); }  //コインをスポーンさせる
+                { Spawn.Sameplace(spawnCoin, this.transform); }  //コインをスポーンさせる
 
                 Destroy(gameObject);                                  //自身を破壊 
             }

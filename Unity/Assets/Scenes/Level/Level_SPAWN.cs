@@ -1,7 +1,7 @@
 ﻿//ブロックの生成について定義。
 using UnityEngine;
 using System.Collections.Generic;
-
+using Level;
 public class Level_SPAWN : MonoBehaviour{
     [SerializeField] private Level_Header Header;
     private float delda_spawn = 0; //積算デルタ秒
